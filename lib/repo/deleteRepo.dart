@@ -3,22 +3,22 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 
 class DeleteRepo{
-  Future <bool> deletePage(String taskid)
+  Future <bool> deletePage(String id)
   async
   {
     final CollectionReference deletedata = FirebaseFirestore.instance.collection('taskCollection');
-    void delete(taskid){
-      deletedata.doc(taskid).delete();
-    }
+    
     try{
-      await deletedata.doc(taskid).delete();
+      await deletedata.doc(id).delete();
+      print(id);
       print('deleted task');
       return true;
 
     }
     catch(e){
       print('cannot deleted the task');
-      throw Exception();    }
+      rethrow;   
+      }
   }
 
 }

@@ -2,24 +2,44 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:todoapp/Screens/task.dart';
 
 class UpdateRepo{
-  Future <void> updatePage(
+  Future <bool> updatetask(
     String id,
-    String taskname,
-    String description,
+    String taskupd,
+    String descriptionupd,
   )async
   {
     final CollectionReference update = FirebaseFirestore.instance.collection('taskCollection');
+    
+    final DocumentSnapshot doc = await update.doc(id).get();
+    
+
+if (doc.exists) {
+    // Document exists, proceed with the update
+    await update.doc(id).update({
+        'task': taskupd,
+        'description': descriptionupd,
+    });
+    print('Task updated');
+    return true;
+} else {
+    // Document does not exist
+    print('Document with ID $id not found');
+    return false;
+}
     try{
-      await update.doc('task').update({
-        'taskname': taskname,
-        'decription': description,
+      print(id);
+      print(taskupd);
+      print(descriptionupd);
+      await update.doc(id).update({
+        'task': taskupd,
+        'description': descriptionupd,
       });
-      
+      return true;
       print('task updated');
     }
     catch(e){
       print('cannot updated');
-      throw Exception();
+      rethrow;
       
     }
   }

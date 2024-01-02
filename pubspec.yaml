@@ -45,6 +45,12 @@ dependencies:
   intl_phone_field: ^3.2.0
   shared_preferences: ^2.2.2
   uuid: ^4.2.2
+  image_picker: ^1.0.5
+  path: ^1.8.0
+  file_picker: ^5.3.0
+  open_file: ^3.3.1
+  path_provider: ^2.0.5
+  firebase_messaging: ^14.7.9
 
 dev_dependencies:
   flutter_test:
@@ -77,6 +83,9 @@ flutter:
     - asset/images/
     - asset/images/
     - asset/images/
+    - asset/images/
+    - asset/images/
+
 
   #   - images/a_dot_ham.jpeg
 

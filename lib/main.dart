@@ -1,25 +1,35 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:todoapp/Screens/homePage.dart';
 import 'package:todoapp/Screens/login.dart';
 import 'package:todoapp/Screens/signup.dart';
 
-void main()async {
-  try{
-    WidgetsFlutterBinding.ensureInitialized();
-  FirebaseOptions firebaseOptions = const FirebaseOptions(
-    apiKey: "AIzaSyBn__9PGdecEMbjynPhLW0CSkzgHCbuSug", 
-    appId: "1:837921498726:android:a7be4d95b30f0b6373afa7", 
-    messagingSenderId: "837921498726",
-    projectId: "new-todo-app-46ec6");
-     await Firebase.initializeApp(options: firebaseOptions);
-  }
- 
+Future<void> BackgroundMessageHandler(RemoteMessage message) async {
+  print('handling a background message${message.messageId}');
+}
 
-  catch(e){
-         print('firebase initialization cannot be done');
+void main() async {
+  try {
+    WidgetsFlutterBinding.ensureInitialized();
+    FirebaseOptions firebaseOptions = const FirebaseOptions(
+        apiKey: "AIzaSyBn__9PGdecEMbjynPhLW0CSkzgHCbuSug",
+        appId: "1:837921498726:android:a7be4d95b30f0b6373afa7",
+        storageBucket: "new-todo-app-46ec6.appspot.com",
+        messagingSenderId: "837921498726",
+        projectId: "new-todo-app-46ec6");
+    await Firebase.initializeApp(options: firebaseOptions);
+    FirebaseMessaging.instance.requestPermission(
+      sound: true,
+      badge: true,
+      alert: true,
+      provisional: false,
+    );
+    FirebaseMessaging.onBackgroundMessage(BackgroundMessageHandler);
+  } catch (e) {
+    print('firebase initialization cannot be done');
   }
-  
-  
+
   runApp(const MyApp());
 }
 
@@ -49,11 +59,11 @@ class MyApp extends StatelessWidget {
         //
         // This works for code too, not just values: Most code changes can be
         // tested with just a hot reload.
-        colorScheme: ColorScheme.fromSeed(seedColor: Color.fromARGB(255, 22, 17, 31)),
+        colorScheme:
+            ColorScheme.fromSeed(seedColor: Color.fromARGB(255, 22, 17, 31)),
         useMaterial3: true,
       ),
       home: const LoginPage(),
     );
   }
 }
-
